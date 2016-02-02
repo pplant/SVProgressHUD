@@ -234,8 +234,13 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
 
 #pragma mark - disable parent
 
-+ (void)disableParent:(UIView *) contentView{
-    [self sharedView].parent = contentView;
++ (void)disableParent{
+    UIViewController *topViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    while (topViewController.presentedViewController) {
+        topViewController = topViewController.presentedViewController;
+    }
+    [self sharedView].parent = topViewController.view;
     [[self sharedView].parent setUserInteractionEnabled:NO];
 }
 
